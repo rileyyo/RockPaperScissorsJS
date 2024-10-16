@@ -1,6 +1,6 @@
-# TicTacToe
+# Rock Paper Scissors
 
-TicTacToe game to practice JavaScript
+Rock Paper Scissors game to practice JavaScript
 
 Plan:
 getComputerChoice function to get computer's choice of rock paper or scissors
