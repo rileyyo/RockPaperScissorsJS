@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let userScore = 0
+        let computerScore = 0
+        function getComputerChoice(){
+            let rand = Math.floor(Math.random() * 3)
+            return rand === 0 ? "rock" : rand === 1 ? "paper" : rand === 2 ? "scissors" : "invalid"
+        }
+        function getUserChoice(){
+            let userChoice = prompt("Rock, Paper, or Scissors?")
+            if (userChoice != null && (userChoice.toLowerCase() === "rock" || userChoice.toLowerCase() === "r")){
+                return "rock"
+            }
+            else if (userChoice != null && (userChoice.toLowerCase() === "paper" || userChoice.toLowerCase() === "p")){
+                return "paper"
+            }
+            else if (userChoice != null && (userChoice.toLowerCase() === "scissors" || userChoice.toLowerCase() ==="s")){
+                return "scissors"
+            }
+            else{
+                alert('Invalid choice, please enter "Rock", "Paper", or "Scissors" (or "r", "p", or "s")')
+                getUserChoice()
+            }
+        }
+        function playRound(humanChoice, computerChoice){
+            if (humanChoice === computerChoice) {
+                console.log(`You tied! ${humanChoice.toUpperCase()} ties ${humanChoice.toUpperCase()}`)
+            }
+            else if ((humanChoice == "rock" && computerChoice == "scissors")
+            || (humanChoice == "paper" && computerChoice == "rock")
+            || (humanChoice == "scissors" && computerChoice == "paper")){
+                console.log(`Congratulations! You Won! ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`)
+                userScore += 1
+            }
+            else {
+                console.log(`Oh No! You Lost! ${humanChoice.toUpperCase()} loses to ${computerChoice.toUpperCase()}`)
+                computerScore += 1
+            }
+        }
+        function playGame(){
+            for(let i = 0; i < 5; i++)
+            {
+                let computerChoice = getComputerChoice()
+                let humanChoice = getUserChoice()
+                playRound(humanChoice, computerChoice)
+            }
+        }
+        playGame()
+        alert(`Final Score! You: ${userScore} vs. Computer: ${computerScore}`)
+    </script>
+</body>
+</html>
