@@ -4,56 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(245, 245, 245);
+        }
+        button {
+            font-family: inherit;
+            border-radius: 20px;
+            padding: 12px 18px;
+            font-size: 18px;
+            width: 120px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .button-container {
+            width: fit-content;
+            margin: 4px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .heading {
+            margin: 4px;
+            font-size: 40px;
+            text-align: center;
+        }
+        .subheading{
+            margin: 4px;
+            font-size: 26px;
+            font-style: italic;
+            color: rgb(58, 58, 58);
+            text-align: center;
+        }
+        #rock {
+            background-color: bisque;
+        }
+        #paper {
+            background-color: white;
+        }
+        #scissors {
+            background-color: lightgray;
+        }
+        /* Style the container */
+        .results {
+            display: flex;
+            flex-direction: column;    /* Stack elements vertically */
+            align-items: center;       /* Center everything horizontally */
+            width: 80%;                /* Adjust width to fit nicely */
+            margin: 20px auto;         /* Center on the page */
+            color: rgb(58, 58, 58);
+            font-family: inherit;
+          }
+          
+        /* Style for the round summary */
+        .round-summary {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        }
+        
+        /* Flex container for scores */
+        .score-container {
+        display: flex;
+        justify-content: center; /* Create space between User and Computer */
+        width: 100%;                   /* Ensure it stretches across the container */
+        }
+    
+        /* Style individual score sections */
+        .score {
+            text-align: center;
+            width: 30%; /* Each score block takes 40% of the width */
+        }
+        
+        .score h2 {
+            margin: 0 0 10px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .score p {
+            font-size: 48px;
+            margin: 0;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2 class="heading">
+            Welcome to RPS
+        </h2>
+        <h3 class="subheading">
+            also known as Rock, Paper, Scissors!
+        </h3>
+        <div class="button-container">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <div class="results">
+            <div class="round-summary">
+                Let the game begin! (click rock, paper, or scissors to start)
+            </div>
+            <div class="score-container">
+                <div class="score">
+                    <h2>User</h2>
+                    <p id="userScore">0</p>
+                </div>
+                <div class="score">
+                    <h2>Computer</h2>
+                    <p id="computerScore">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
     <script>
+        const container = document.querySelector(".button-container")
+        container.addEventListener("click", function (e) {
+            const target = e.target
+            const valueId = target.id
+            switch(valueId){
+                case 'rock':
+                    console.log("rock")
+                    playRound("rock", getComputerChoice())
+                    displayScore()
+                    break;
+                case 'paper':
+                    console.log("paper")
+                    playRound("paper", getComputerChoice())
+                    displayScore()
+                    break;
+                case 'scissors':
+                    console.log("scissors")
+                    playRound("scissors", getComputerChoice())
+                    displayScore()
+                    break;
+            }
+        })
+        window.addEventListener("load", function (e) {
+            const resultsDiv = document.querySelector(".score-container")
+            console.log("page-loaded")
+            resultsDiv.style.visibility = 'hidden'
+        })
+        function displayScore(){
+            const userScoreElement = document.querySelector("#userScore")
+            console.log(userScoreElement)
+            userScoreElement.textContent = userScore
+            const computerScoreElement = document.querySelector("#computerScore")
+            computerScoreElement.textContent = computerScore
+            const resultsDiv = document.querySelector(".score-container")
+            resultsDiv.style.visibility = 'visible'
+        }
+
         let userScore = 0
         let computerScore = 0
         function getComputerChoice(){
             let rand = Math.floor(Math.random() * 3)
             return rand === 0 ? "rock" : rand === 1 ? "paper" : rand === 2 ? "scissors" : "invalid"
         }
-        function getUserChoice(){
-            let userChoice = prompt("Rock, Paper, or Scissors?")
-            if (userChoice != null && (userChoice.toLowerCase() === "rock" || userChoice.toLowerCase() === "r")){
-                return "rock"
-            }
-            else if (userChoice != null && (userChoice.toLowerCase() === "paper" || userChoice.toLowerCase() === "p")){
-                return "paper"
-            }
-            else if (userChoice != null && (userChoice.toLowerCase() === "scissors" || userChoice.toLowerCase() ==="s")){
-                return "scissors"
-            }
-            else{
-                alert('Invalid choice, please enter "Rock", "Paper", or "Scissors" (or "r", "p", or "s")')
-                getUserChoice()
-            }
-        }
         function playRound(humanChoice, computerChoice){
             if (humanChoice === computerChoice) {
+                const roundSummary = document.querySelector(".round-summary")
+                roundSummary.textContent = `You tied! ${humanChoice.toUpperCase()} ties ${humanChoice.toUpperCase()}`
                 console.log(`You tied! ${humanChoice.toUpperCase()} ties ${humanChoice.toUpperCase()}`)
             }
             else if ((humanChoice == "rock" && computerChoice == "scissors")
             || (humanChoice == "paper" && computerChoice == "rock")
             || (humanChoice == "scissors" && computerChoice == "paper")){
+                const roundSummary = document.querySelector(".round-summary")
+                roundSummary.textContent = `Congratulations! You Won! ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`
                 console.log(`Congratulations! You Won! ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`)
                 userScore += 1
             }
             else {
+                const roundSummary = document.querySelector(".round-summary")
+                roundSummary.textContent = `Oh No! You Lost! ${humanChoice.toUpperCase()} loses to ${computerChoice.toUpperCase()}`
                 console.log(`Oh No! You Lost! ${humanChoice.toUpperCase()} loses to ${computerChoice.toUpperCase()}`)
                 computerScore += 1
             }
         }
-        function playGame(){
-            for(let i = 0; i < 5; i++)
-            {
-                let computerChoice = getComputerChoice()
-                let humanChoice = getUserChoice()
-                playRound(humanChoice, computerChoice)
-            }
-        }
-        playGame()
-        alert(`Final Score! You: ${userScore} vs. Computer: ${computerScore}`)
+
+        //alert(`Final Score! You: ${userScore} vs. Computer: ${computerScore}`)
     </script>
 </body>
 </html>
